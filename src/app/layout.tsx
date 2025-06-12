@@ -2,11 +2,10 @@
 
 import './globals.css'
 import { ReactNode } from 'react'
-import { Html, Head, Body } from 'next/document' // ❌ This is WRONG! DON'T use this line.
 
 export const metadata = {
-  title: 'Your Website',
-  description: 'Your description',
+  title: 'My Website',
+  description: 'My website description',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -17,14 +16,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;
-            j.src='https://www.googletagmanager.com/gtm.js?id=GTM-NGRBGWDD'+dl;
-            f.parentNode.insertBefore(j,f);
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;
+              j.src='https://www.googletagmanager.com/gtm.js?id=GTM-NGRBGWDD'+dl;
+              f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','GTM-NGRBGWDD');`,
           }}
         />
-        {/* End Google Tag Manager */}
       </head>
       <body>
         {/* Google Tag Manager (noscript) */}
@@ -36,7 +34,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             style={{ display: 'none', visibility: 'hidden' }}
           ></iframe>
         </noscript>
-
         {children}
       </body>
     </html>
