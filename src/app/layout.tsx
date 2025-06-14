@@ -12,6 +12,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7890617506854884"
+     crossorigin="anonymous"></script>
         {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
