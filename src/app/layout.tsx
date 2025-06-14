@@ -4,7 +4,7 @@ import './globals.css'
 import { ReactNode } from 'react'
 
 export const metadata = {
-  title: 'My Website',
+  title: 'AIBUDDY',
   description: 'My website description',
 }
 
