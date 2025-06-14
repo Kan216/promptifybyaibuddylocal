@@ -14,6 +14,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7890617506854884"
      crossorigin="anonymous"></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7890617506854884"
+     crossorigin="anonymous"></script>
+<!-- Test2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7890617506854884"
+     data-ad-slot="7192533618"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
         {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
