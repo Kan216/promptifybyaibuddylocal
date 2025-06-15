@@ -16,6 +16,34 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Moon, Sun, KeyRound, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { PLATFORMS, IMAGE_PLATFORMS } from "@/lib/constants";
+const translations = {
+  en: {
+    appTitle: "Promptify by The AI Buddy",
+    tagline: "Craft the perfect AI prompt. Describe your idea, choose your platform, and let Promptify refine it for you.",
+    apiSectionTitle: "Google AI API Key",
+    apiDescription: "To use the AI-powered features, please enter your Google AI API Key. It will be stored locally in your browser.",
+    apiPlaceholder: "Enter your Google AI API Key",
+    saveKey: "Save Key",
+    apiKeySet: "API Key is set. You can now generate prompts.",
+    apiKeyNotSet: "API Key not set. AI features are disabled.",
+    footer: `Built with Next.js and Genkit.`,
+    lang_en: "English",
+    lang_my: "မြန်မာ",
+  },
+  my: {
+    appTitle: "Promptify - The AI Buddy မှ",
+    tagline: "အကောင်းဆုံး AI Prompt ကိုဖန်တီးပါ။ သင်၏အကြံပြုချက်ကိုဖော်ပြပြီး ပလက်ဖောင်းရွေးပြီး Promptify သည် ပြုပြင်ပေးပါမည်။",
+    apiSectionTitle: "Google AI API Key",
+    apiDescription: "AI လုပ်ဆောင်ချက်များအသုံးပြုရန် Google AI API Key ထည့်ပါ။ သင့် browser ထဲတွင်သာသိမ်းထားမည်။",
+    apiPlaceholder: "သင့် Google AI API Key ကိုထည့်ပါ",
+    saveKey: "Key သိမ်းမည်",
+    apiKeySet: "API Key ထည့်ပြီးပါပြီ။ ယခု Prompt များကိုဖန်တီးနိုင်ပါသည်။",
+    apiKeyNotSet: "API Key မရှိသေးပါ။ AI လုပ်ဆောင်ချက်များအတွက်လိုအပ်ပါသည်။",
+    footer: `Next.js နှင့် Genkit ဖြင့်တည်ဆောက်ထားသည်။`,
+    lang_en: "အင်္ဂလိပ်",
+    lang_my: "မြန်မာ",
+  }
+};
 
 const HISTORY_STORAGE_KEY = "promptifyHistory";
 const API_KEY_STORAGE_KEY = "promptifyApiKey";
