@@ -52,7 +52,7 @@ const translations = {
     footerCopyright: "© {year} Promptify by The AI Buddy. All rights reserved.",
   },
   my: {
-    appTitle: "Promptify - The AI Buddy မှ",
+    appTitle: "Promptify - The AI Buddy",
     tagline: "အကောင်းဆုံး AI Prompt ကိုဖန်တီးပါ။ သင်၏အကြံပြုချက်ကိုဖော်ပြပြီး ပလက်ဖောင်းရွေးပြီး Promptify သည် ပြုပြင်ပေးပါမည်။",
     apiSectionTitle: "Google AI API Key",
     apiDescription: "AI လုပ်ဆောင်ချက်များအသုံးပြုရန် Google AI API Key ထည့်ပါ။ သင့် browser ထဲတွင်သာသိမ်းထားမည်။",
