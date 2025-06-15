@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -16,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Moon, Sun, KeyRound, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { PLATFORMS, IMAGE_PLATFORMS } from "@/lib/constants";
+
 const translations = {
   en: {
     appTitle: "Promptify by The AI Buddy",
@@ -47,6 +47,7 @@ const translations = {
 
 const HISTORY_STORAGE_KEY = "promptifyHistory";
 const API_KEY_STORAGE_KEY = "promptifyApiKey";
+const LANGUAGE_STORAGE_KEY = "promptifyLanguage";
 
 export default function PromptifyPage() {
   const [userApiKey, setUserApiKey] = useState<string>("");
@@ -64,6 +65,7 @@ export default function PromptifyPage() {
   const [history, setHistory] = useState<PromptHistoryEntry[]>([]);
   const { toast } = useToast();
   const [currentTheme, setCurrentTheme] = useState("light");
+  const [language, setLanguage] = useState<'en' | 'my'>('en');
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -79,6 +81,11 @@ export default function PromptifyPage() {
       if (storedApiKey) {
         setUserApiKey(storedApiKey);
         setIsApiKeySet(true);
+      }
+      
+      const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+      if (storedLanguage && (storedLanguage === 'en' || storedLanguage === 'my')) {
+        setLanguage(storedLanguage);
       }
     }
   }, []);
@@ -189,34 +196,43 @@ export default function PromptifyPage() {
     document.documentElement.classList.toggle("dark", newTheme === "dark");
   };
 
+  const handleLangChange = (lang: 'en' | 'my') => {
+    setLanguage(lang);
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+  };
+
   return (
     <div className="flex flex-col min-h-screen items-center p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-background via-accent/5 to-primary/5 transition-colors duration-300">
       <header className="w-full max-w-6xl mb-8 sm:mb-12 flex justify-between items-center">
         <div className="flex items-center">
           <PromptifyLogo className="h-10 w-10 sm:h-12 sm:w-12 text-primary" />
           <h1 className="ml-3 text-3xl sm:text-5xl font-bold font-headline bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-foreground/80">
-            Promptify by The AI Buddy
+            {translations[language].appTitle}
           </h1>
         </div>
-        <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
-          <Sun className="h-6 w-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-6 w-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-        </Button>
+        <div className="flex items-center space-x-2">
+            <Button variant={language === 'en' ? "secondary" : "ghost"} size="sm" onClick={() => handleLangChange('en')}>{translations[language].lang_en}</Button>
+            <Button variant={language === 'my' ? "secondary" : "ghost"} size="sm" onClick={() => handleLangChange('my')}>{translations[language].lang_my}</Button>
+            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+                <Sun className="h-6 w-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-6 w-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            </Button>
+        </div>
       </header>
       <p className="text-center text-muted-foreground mb-6 text-md sm:text-lg max-w-2xl">
-        Craft the perfect AI prompt. Describe your idea, choose your platform, and let Promptify refine it for you.
+        {translations[language].tagline}
       </p>
 
       <Card className="w-full max-w-md mb-10 bg-card/60 backdrop-blur-xl border border-border/20 shadow-lg rounded-2xl">
         <CardHeader>
           <CardTitle className="flex items-center text-xl font-headline">
             <KeyRound className="mr-2 h-6 w-6 text-primary" />
-            Google AI API Key
+            {translations[language].apiSectionTitle}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <p className="text-sm text-muted-foreground">
-            To use the AI-powered features, please enter your Google AI API Key. It will be stored locally in your browser.
+            {translations[language].apiDescription}
           </p>
           <div className="flex items-center space-x-2">
             <Input
@@ -224,15 +240,15 @@ export default function PromptifyPage() {
               type="password"
               value={userApiKey}
               onChange={handleApiKeyChange}
-              placeholder="Enter your Google AI API Key"
+              placeholder={translations[language].apiPlaceholder}
               className="bg-background/70 focus:bg-background"
             />
-            <Button onClick={saveApiKey}>Save Key</Button>
+            <Button onClick={saveApiKey}>{translations[language].saveKey}</Button>
           </div>
           {isApiKeySet ? (
-            <p className="text-xs text-green-600 dark:text-green-400 flex items-center"><CheckCircle2 className="mr-1 h-4 w-4" />API Key is set. You can now generate prompts.</p>
+            <p className="text-xs text-green-600 dark:text-green-400 flex items-center"><CheckCircle2 className="mr-1 h-4 w-4" />{translations[language].apiKeySet}</p>
           ) : (
-            <p className="text-xs text-orange-600 dark:text-orange-400 flex items-center"><AlertTriangle className="mr-1 h-4 w-4" />API Key not set. AI features are disabled.</p>
+            <p className="text-xs text-orange-600 dark:text-orange-400 flex items-center"><AlertTriangle className="mr-1 h-4 w-4" />{translations[language].apiKeyNotSet}</p>
           )}
         </CardContent>
       </Card>
@@ -257,7 +273,7 @@ export default function PromptifyPage() {
         />
       </main>
       <footer className="mt-12 text-center text-sm text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} Promptify by The AI Buddy. Built with Next.js and Genkit.</p>
+        <p>&copy; {new Date().getFullYear()} {translations[language].appTitle}. {translations[language].footer}</p>
       </footer>
     </div>
   );
