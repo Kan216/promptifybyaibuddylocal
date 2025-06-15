@@ -11,11 +11,11 @@ import { useToast } from "@/hooks/use-toast";
 import { PromptifyLogo } from "@/components/icons/PromptifyLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Moon, Sun, KeyRound, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { PLATFORMS, IMAGE_PLATFORMS } from "@/lib/constants";
 
+// Expanded translations for a fully internationalized page
 const translations = {
   en: {
     appTitle: "Promptify by The AI Buddy",
@@ -26,12 +26,33 @@ const translations = {
     saveKey: "Save Key",
     apiKeySet: "API Key is set. You can now generate prompts.",
     apiKeyNotSet: "API Key not set. AI features are disabled.",
-    footer: `Built with Next.js and Genkit.`,
+    footerText: `Built with Next.js and Genkit.`,
     lang_en: "English",
     lang_my: "မြန်မာ",
+    // Toasts & Notifications
+    apiKeySavedTitle: "API Key Saved!",
+    apiKeySavedDesc: "Your Google AI API Key has been stored locally.",
+    apiKeyClearedTitle: "API Key Cleared",
+    apiKeyClearedDesc: "API Key removed. AI features require a key.",
+    apiKeyRequiredTitle: "API Key Required",
+    apiKeyRequiredDesc: "Please enter your Google AI API Key to generate prompts.",
+    promptGeneratedTitle: "Prompt Generated!",
+    promptGeneratedDesc: "Your refined prompt is ready.",
+    errorGeneratingTitle: "Error Generating Prompt",
+    errorInvalidKey: "API Key is invalid or missing required permissions. Please check your key.",
+    errorGeneral: "Failed to generate prompt. Please try again or check console.",
+    suggestionAppliedTitle: "Suggestion Applied!",
+    suggestionAppliedDesc: "Prompt details updated from suggestion.",
+    loadedFromHistoryTitle: "Loaded from History",
+    loadedFromHistoryDesc: "Prompt details loaded.",
+    historyClearedTitle: "History Cleared",
+    historyClearedDesc: "Your prompt history has been removed.",
+    // ARIA Labels and other text
+    toggleTheme: "Toggle theme",
+    footerCopyright: "© {year} Promptify by The AI Buddy. All rights reserved.",
   },
   my: {
-    appTitle: "Promptify - The AI Buddy",
+    appTitle: "Promptify - The AI Buddy မှ",
     tagline: "အကောင်းဆုံး AI Prompt ကိုဖန်တီးပါ။ သင်၏အကြံပြုချက်ကိုဖော်ပြပြီး ပလက်ဖောင်းရွေးပြီး Promptify သည် ပြုပြင်ပေးပါမည်။",
     apiSectionTitle: "Google AI API Key",
     apiDescription: "AI လုပ်ဆောင်ချက်များအသုံးပြုရန် Google AI API Key ထည့်ပါ။ သင့် browser ထဲတွင်သာသိမ်းထားမည်။",
@@ -39,15 +60,38 @@ const translations = {
     saveKey: "Key သိမ်းမည်",
     apiKeySet: "API Key ထည့်ပြီးပါပြီ။ ယခု Prompt များကိုဖန်တီးနိုင်ပါသည်။",
     apiKeyNotSet: "API Key မရှိသေးပါ။ AI လုပ်ဆောင်ချက်များအတွက်လိုအပ်ပါသည်။",
-    footer: `Next.js နှင့် Genkit ဖြင့်တည်ဆောက်ထားသည်။`,
+    footerText: `Next.js နှင့် Genkit ဖြင့်တည်ဆောက်ထားသည်။`,
     lang_en: "အင်္ဂလိပ်",
     lang_my: "မြန်မာ",
+    // Toasts & Notifications
+    apiKeySavedTitle: "API Key သိမ်းလိုက်ပါပြီ!",
+    apiKeySavedDesc: "သင်၏ Google AI API Key ကို browser ထဲတွင် သိမ်းဆည်းထားပါသည်။",
+    apiKeyClearedTitle: "API Key ရှင်းလင်းပြီးပါပြီ",
+    apiKeyClearedDesc: "API Key ကိုဖယ်ရှားလိုက်ပါသည်။ AI လုပ်ဆောင်ချက်များအတွက် Key လိုအပ်ပါသည်။",
+    apiKeyRequiredTitle: "API Key လိုအပ်သည်",
+    apiKeyRequiredDesc: "Prompt ဖန်တီးရန် သင်၏ Google AI API Key ကိုထည့်ပါ။",
+    promptGeneratedTitle: "Prompt ဖန်တီးပြီးပါပြီ!",
+    promptGeneratedDesc: "သင်၏ ပြုပြင်ပြီးသော prompt အဆင်သင့်ဖြစ်ပါပြီ။",
+    errorGeneratingTitle: "Prompt ဖန်တီးရာတွင် အမှားဖြစ်ပွားသည်",
+    errorInvalidKey: "API Key သည် မမှန်ကန်ပါ သို့မဟုတ် လိုအပ်သောခွင့်ပြုချက်များမရှိပါ။ သင့် Key ကိုစစ်ဆေးပါ။",
+    errorGeneral: "Prompt ကိုဖန်တီးရန်မအောင်မြင်ပါ။ ကျေးဇူးပြု၍ ထပ်ကြိုးစားပါ သို့မဟုတ် console ကိုစစ်ဆေးပါ။",
+    suggestionAppliedTitle: "အကြံပြုချက်ကို အသုံးပြုလိုက်ပါပြီ!",
+    suggestionAppliedDesc: "Prompt အချက်အလက်များကို အကြံပြုချက်မှ အသစ်ပြောင်းလိုက်ပါသည်။",
+    loadedFromHistoryTitle: "မှတ်တမ်းမှ ပြန်ဖွင့်ထားသည်",
+    loadedFromHistoryDesc: "Prompt အသေးစိတ်ကို တင်ပြီးပါပြီ။",
+    historyClearedTitle: "မှတ်တမ်းကို ရှင်းလင်းပြီးပါပြီ",
+    historyClearedDesc: "သင်၏ prompt မှတ်တမ်းကို ဖယ်ရှားလိုက်ပါသည်။",
+    // ARIA Labels and other text
+    toggleTheme: "Theme ပြောင်းရန်",
+    footerCopyright: "© {year} Promptify by The AI Buddy. All rights reserved.",
   }
 };
 
 const HISTORY_STORAGE_KEY = "promptifyHistory";
 const API_KEY_STORAGE_KEY = "promptifyApiKey";
 const LANGUAGE_STORAGE_KEY = "promptifyLanguage";
+
+type Language = keyof typeof translations;
 
 export default function PromptifyPage() {
   const [userApiKey, setUserApiKey] = useState<string>("");
@@ -65,14 +109,15 @@ export default function PromptifyPage() {
   const [history, setHistory] = useState<PromptHistoryEntry[]>([]);
   const { toast } = useToast();
   const [currentTheme, setCurrentTheme] = useState("light");
-  const [language, setLanguage] = useState<'en' | 'my'>('en');
+  const [language, setLanguage] = useState<Language>('en');
+
+  const t = translations[language];
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedHistory = localStorage.getItem(HISTORY_STORAGE_KEY);
-      if (storedHistory) {
-        setHistory(JSON.parse(storedHistory));
-      }
+      if (storedHistory) setHistory(JSON.parse(storedHistory));
+      
       const storedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       setCurrentTheme(storedTheme);
       document.documentElement.classList.toggle("dark", storedTheme === "dark");
@@ -83,8 +128,8 @@ export default function PromptifyPage() {
         setIsApiKeySet(true);
       }
       
-      const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
-      if (storedLanguage && (storedLanguage === 'en' || storedLanguage === 'my')) {
+      const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY) as Language;
+      if (storedLanguage && translations[storedLanguage]) {
         setLanguage(storedLanguage);
       }
     }
@@ -98,11 +143,11 @@ export default function PromptifyPage() {
     if (userApiKey.trim() !== "") {
       localStorage.setItem(API_KEY_STORAGE_KEY, userApiKey.trim());
       setIsApiKeySet(true);
-      toast({ title: "API Key Saved!", description: "Your Google AI API Key has been stored locally." });
+      toast({ title: t.apiKeySavedTitle, description: t.apiKeySavedDesc });
     } else {
       localStorage.removeItem(API_KEY_STORAGE_KEY);
       setIsApiKeySet(false);
-      toast({ variant: "destructive", title: "API Key Cleared", description: "API Key removed. AI features require a key." });
+      toast({ variant: "destructive", title: t.apiKeyClearedTitle, description: t.apiKeyClearedDesc });
     }
   };
 
@@ -117,8 +162,8 @@ export default function PromptifyPage() {
     if (!isApiKeySet || !userApiKey) {
       toast({
         variant: "destructive",
-        title: "API Key Required",
-        description: "Please enter your Google AI API Key to generate prompts.",
+        title: t.apiKeyRequiredTitle,
+        description: t.apiKeyRequiredDesc,
       });
       return;
     }
@@ -130,25 +175,19 @@ export default function PromptifyPage() {
       setRefinedPrompt(result.refinedPrompt);
       const newEntry: PromptHistoryEntry = {
         id: new Date().toISOString(),
-        roughPrompt: values.roughPrompt,
-        platform: values.platform,
+        ...values,
         refinedPrompt: result.refinedPrompt,
         timestamp: Date.now(),
-        photoBackground: values.photoBackground,
-        photoElements: values.photoElements,
-        photoColorPalette: values.photoColorPalette,
-        photoStyle: values.photoStyle,
       };
       saveHistory([newEntry, ...history.slice(0, 19)]);
-      toast({ title: "Prompt Generated!", description: "Your refined prompt is ready." });
+      toast({ title: t.promptGeneratedTitle, description: t.promptGeneratedDesc });
     } catch (error: any) {
       console.error("Error refining prompt:", error);
-      const errorMessage = error.message?.includes("API key not valid") || error.message?.includes("PERMISSION_DENIED")
-        ? "API Key is invalid or missing required permissions. Please check your key."
-        : "Failed to generate prompt. Please try again or check console.";
+      const isAuthError = error.message?.includes("API key not valid") || error.message?.includes("PERMISSION_DENIED");
+      const errorMessage = isAuthError ? t.errorInvalidKey : t.errorGeneral;
       toast({
         variant: "destructive",
-        title: "Error Generating Prompt",
+        title: t.errorGeneratingTitle,
         description: errorMessage,
       });
       setRefinedPrompt(`Error: ${errorMessage}`);
@@ -168,7 +207,7 @@ export default function PromptifyPage() {
       photoStyle: IMAGE_PLATFORMS.includes(suggestion.platform) ? prev.photoStyle : "",
     }));
     setRefinedPrompt(null);
-    toast({ title: "Suggestion Applied!", description: "Prompt details updated from suggestion." });
+    toast({ title: t.suggestionAppliedTitle, description: t.suggestionAppliedDesc });
   };
 
   const handleSelectHistory = (entry: PromptHistoryEntry) => {
@@ -181,12 +220,12 @@ export default function PromptifyPage() {
       photoStyle: entry.photoStyle || "",
     });
     setRefinedPrompt(entry.refinedPrompt);
-    toast({ title: "Loaded from History", description: "Prompt details loaded." });
+    toast({ title: t.loadedFromHistoryTitle, description: t.loadedFromHistoryDesc });
   };
 
   const handleClearHistory = () => {
     saveHistory([]);
-    toast({ title: "History Cleared", description: "Your prompt history has been removed." });
+    toast({ title: t.historyClearedTitle, description: t.historyClearedDesc });
   };
 
   const toggleTheme = () => {
@@ -196,7 +235,7 @@ export default function PromptifyPage() {
     document.documentElement.classList.toggle("dark", newTheme === "dark");
   };
 
-  const handleLangChange = (lang: 'en' | 'my') => {
+  const handleLangChange = (lang: Language) => {
     setLanguage(lang);
     localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
   };
@@ -206,33 +245,33 @@ export default function PromptifyPage() {
       <header className="w-full max-w-6xl mb-8 sm:mb-12 flex justify-between items-center">
         <div className="flex items-center">
           <PromptifyLogo className="h-10 w-10 sm:h-12 sm:w-12 text-primary" />
-          <h1 className="ml-3 text-3xl sm:text-5xl font-bold font-headline bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-foreground/80">
-            {translations[language].appTitle}
+          <h1 className="ml-3 text-2xl sm:text-4xl font-bold font-headline bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-foreground/80">
+            {t.appTitle}
           </h1>
         </div>
-        <div className="flex items-center space-x-2">
-            <Button variant={language === 'en' ? "secondary" : "ghost"} size="sm" onClick={() => handleLangChange('en')}>{translations[language].lang_en}</Button>
-            <Button variant={language === 'my' ? "secondary" : "ghost"} size="sm" onClick={() => handleLangChange('my')}>{translations[language].lang_my}</Button>
-            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+        <div className="flex items-center space-x-1 sm:space-x-2">
+            <Button variant={language === 'en' ? "secondary" : "ghost"} size="sm" onClick={() => handleLangChange('en')}>{t.lang_en}</Button>
+            <Button variant={language === 'my' ? "secondary" : "ghost"} size="sm" onClick={() => handleLangChange('my')}>{t.lang_my}</Button>
+            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label={t.toggleTheme}>
                 <Sun className="h-6 w-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-6 w-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             </Button>
         </div>
       </header>
       <p className="text-center text-muted-foreground mb-6 text-md sm:text-lg max-w-2xl">
-        {translations[language].tagline}
+        {t.tagline}
       </p>
 
       <Card className="w-full max-w-md mb-10 bg-card/60 backdrop-blur-xl border border-border/20 shadow-lg rounded-2xl">
         <CardHeader>
           <CardTitle className="flex items-center text-xl font-headline">
             <KeyRound className="mr-2 h-6 w-6 text-primary" />
-            {translations[language].apiSectionTitle}
+            {t.apiSectionTitle}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <p className="text-sm text-muted-foreground">
-            {translations[language].apiDescription}
+            {t.apiDescription}
           </p>
           <div className="flex items-center space-x-2">
             <Input
@@ -240,15 +279,15 @@ export default function PromptifyPage() {
               type="password"
               value={userApiKey}
               onChange={handleApiKeyChange}
-              placeholder={translations[language].apiPlaceholder}
+              placeholder={t.apiPlaceholder}
               className="bg-background/70 focus:bg-background"
             />
-            <Button onClick={saveApiKey}>{translations[language].saveKey}</Button>
+            <Button onClick={saveApiKey}>{t.saveKey}</Button>
           </div>
           {isApiKeySet ? (
-            <p className="text-xs text-green-600 dark:text-green-400 flex items-center"><CheckCircle2 className="mr-1 h-4 w-4" />{translations[language].apiKeySet}</p>
+            <p className="text-xs text-green-600 dark:text-green-400 flex items-center"><CheckCircle2 className="mr-1 h-4 w-4" />{t.apiKeySet}</p>
           ) : (
-            <p className="text-xs text-orange-600 dark:text-orange-400 flex items-center"><AlertTriangle className="mr-1 h-4 w-4" />{translations[language].apiKeyNotSet}</p>
+            <p className="text-xs text-orange-600 dark:text-orange-400 flex items-center"><AlertTriangle className="mr-1 h-4 w-4" />{t.apiKeyNotSet}</p>
           )}
         </CardContent>
       </Card>
@@ -260,20 +299,36 @@ export default function PromptifyPage() {
             isLoading={isLoading}
             initialValues={currentFormValues}
             isApiKeySet={isApiKeySet}
+            translations={t}
+            language={language}
           />
-          <PromptOutput refinedPrompt={refinedPrompt} isLoading={isLoading} />
+          <PromptOutput 
+            refinedPrompt={refinedPrompt} 
+            isLoading={isLoading}
+            translations={t}
+            language={language}
+           />
         </section>
 
-        <PromptSuggestions onSuggestionClick={handleSuggestionClick} />
+        <PromptSuggestions 
+            onSuggestionClick={handleSuggestionClick}
+            translations={t}
+            language={language}
+        />
 
         <PromptHistory
           history={history}
           onSelectHistory={handleSelectHistory}
           onClearHistory={handleClearHistory}
+          translations={t}
+          language={language}
         />
       </main>
       <footer className="mt-12 text-center text-sm text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} {translations[language].appTitle}. {translations[language].footer}</p>
+        <p>
+          {t.footerCopyright.replace('{year}', new Date().getFullYear().toString())}
+        </p>
+        <p>{t.footerText}</p>
       </footer>
     </div>
   );
